@@ -2,9 +2,9 @@ import cv2 as cv
 import numpy as np
 import matplotlib.pyplot as plt
 import random
+import os
 import cv2
-from PIL import Image, ImageEnhance, ImageOps
-
+import time
 
 def read_images_in_folder(folder_path):
     try:
@@ -12,22 +12,27 @@ def read_images_in_folder(folder_path):
             if filename.endswith(".jpg") or filename.endswith(".png"):
                 img = Image.open(os.path.join(folder_path, filename))
                 
+                # Add your code here
+                open_cv_image = np.array(img)
+                salt_and_pepper_img = salt_and_pepper_noise(open_cv_image)
+                
+    except Exception as e:
+        print(e)
+                
 #Function respondible for adding the salt and pepper noise
-def salt_and_pepper_noise(img):
-    row, column = img.shape
-    alteredImage = np.zeros((row, column), dtype='uint8')
-    noise_density = 0.05 #Noise density is set to 5%
-    for i in range(row):
-        for j in range(column):
-            random_num = random.random() #Generates random number
-            if random_num <noise_density/2:
-                alteredImage[i,j]=0
-            elif random_num <noise_density:
-                alteredImage[i,j] = 255
-            else:
-                alteredImage[i,j] = img[i,j]
-        #This for loop randomly assigns pixels in the image to be either black or white
-    return alteredImage
+def salt_and_pepper_noise(image):
+    # Add salt and pepper noise to the image
+    row, col = image.shape
+    salt_vs_pepper = 0.5
+    amount = 0.05
+    num_salt = np.ceil(amount * image.size * salt_vs_pepper)
+    num_pepper = np.ceil(amount * image.size * (1.0 - salt_vs_pepper))
+    salt_coords = [np.random.randint(0, i - 1, int(num_salt)) for i in image.shape]
+    pepper_coords = [np.random.randint(0, i - 1, int(num_pepper)) for i in image.shape]
+    image[salt_coords[0], salt_coords[1]] = 255
+    image[pepper_coords[0], pepper_coords[1]] = 0
+    
+    return image
 
 def find_neighbors(img, row, column, filter_size):
     #The plus and minus values determine the range to search around each cell
@@ -45,7 +50,6 @@ def find_neighbors(img, row, column, filter_size):
 
     return neighbor_values
 
-
 def mean_filter(img, filter_size):
     row, column = img.shape
     filtered_image=np.zeros_like(img,dtype=np.uint8)
@@ -61,11 +65,11 @@ def mean_filter(img, filter_size):
     
     return filtered_image
             
-
-
 def median_filter(img, filter_size):
     row, column = img.shape
-    expected_size = filter_size*filter_size
+    expected_size = filter_
+    folder_path = r"C:\Users\revol\OneDrive\Documents\Image Processing\Assignment 3\Images"
+    read_images_in_folder(folder_path)size*filter_size
     filtered_image=np.zeros_like(img, dtype=np.uint8)
     for i in range(row):
         for j in range(column):
@@ -84,17 +88,7 @@ def median_filter(img, filter_size):
     
     return filtered_image
 
-
-
-
-if __name__=='__main__':
-    def read_images_in_folder("C:\Users\revol\OneDrive\Documents\Image Processing\Assignment 3\Images"):
-    try:
-        for filename in os.listdir(r"C:\Users\revol\OneDrive\Documents\Image Processing\Assignment 3\Images"):
-            if filename.endswith(".jpg") or filename.endswith(".png"):
-                img = Image.open(os.path.join("C:\Users\revol\OneDrive\Documents\Image Processing\Assignment 3\Images", filename)        
-    except Exception as e:
-        print(e)
+if __name__ == '__main__':
     salt_and_pepper_img = salt_and_pepper_noise(img)
 
     #Acquiring each image 
