@@ -2,7 +2,16 @@ import cv2 as cv
 import numpy as np
 import matplotlib.pyplot as plt
 import random
+import cv2
+from PIL import Image, ImageEnhance, ImageOps
 
+
+def read_images_in_folder(folder_path):
+    try:
+        for filename in os.listdir(folder_path):
+            if filename.endswith(".jpg") or filename.endswith(".png"):
+                img = Image.open(os.path.join(folder_path, filename))
+                
 #Function respondible for adding the salt and pepper noise
 def salt_and_pepper_noise(img):
     row, column = img.shape
@@ -79,7 +88,13 @@ def median_filter(img, filter_size):
 
 
 if __name__=='__main__':
-    img = cv.imread("./Raw_data_Ex3/data_ex3.jpg",-1)
+    def read_images_in_folder("C:\Users\revol\OneDrive\Documents\Image Processing\Assignment 3\Images"):
+    try:
+        for filename in os.listdir(r"C:\Users\revol\OneDrive\Documents\Image Processing\Assignment 3\Images"):
+            if filename.endswith(".jpg") or filename.endswith(".png"):
+                img = Image.open(os.path.join("C:\Users\revol\OneDrive\Documents\Image Processing\Assignment 3\Images", filename)        
+    except Exception as e:
+        print(e)
     salt_and_pepper_img = salt_and_pepper_noise(img)
 
     #Acquiring each image 
