@@ -84,7 +84,7 @@ def median_filter(img, filter_size):
     return filtered_image
 
 if __name__=='__main__':
-    img = cv.imread("./Raw_data_Ex3/data_ex3.jpg",-1)
+    img = cv.imread("./Images/lena.png",-1)
     salt_and_pepper_img = salt_and_pepper_noise(img)
     print("The Images are being Prepared...")
     meanImageThree = mean_filter(salt_and_pepper_img, 3)
