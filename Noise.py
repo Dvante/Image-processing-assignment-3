@@ -2,10 +2,14 @@ import cv2 as cv
 import numpy as np
 import matplotlib.pyplot as plt
 import random
+import cv2
 
-#Function responsible for adding the salt and pepper noise
 def salt_and_pepper_noise(img):
-    row, column = img.shape
+    try:
+        row, column = img.shape
+    except AttributeError as e:
+        print(f"Error: {e}. Please check that the image file exists and is in a valid format.")
+        return None
     alteredImage = np.zeros((row, column), dtype='uint8')
     noise_density = 0.05 
     #Noise density is set to 5%
@@ -21,6 +25,7 @@ def salt_and_pepper_noise(img):
                 alteredImage[i,j] = img[i,j]
         #This for loop randomly assigns pixels in the image to be either black or white
     return alteredImage
+
 
 def find_neighbors(img, row, column, filter_size):
     #The plus and minus values determine the range to search around each cell
@@ -84,7 +89,8 @@ def median_filter(img, filter_size):
     return filtered_image
 
 if __name__=='__main__':
-    img = cv.imread("./Images/lena.png",-1)
+    img = cv2.imread(r"C:\Users\revol\OneDrive\Documents\Image Processing\Assignment 3\Images\lena.png", cv2.IMREAD_UNCHANGED)
+    height, width, channels = img.shape
     salt_and_pepper_img = salt_and_pepper_noise(img)
     print("The Images are being Prepared...")
     meanImageThree = mean_filter(salt_and_pepper_img, 3)
